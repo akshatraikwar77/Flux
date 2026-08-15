@@ -5,435 +5,645 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FluxGroups - Premium Minecraft Hosting</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3B82F6, #EF4444);
+            border-radius: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+            padding: 10px 0 5px 0;
+            text-align: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+        .nav-logo .highlight {
+            color: #F87171;
+        }
+
+        .nav-info {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: 4px;
+        }
+        .nav-info .ip {
+            color: #60A5FA;
+        }
+        .nav-info .highlight {
+            color: #F87171;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 20px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: 0.3s;
+            padding: 4px 0;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .discord-btn {
+            background: linear-gradient(135deg, #5865F2, #4752c4);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 6px;
+            transition: 0.3s;
+        }
+        .discord-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 140px;
+            padding-bottom: 60px;
+            background: radial-gradient(ellipse at center, #0a0a1a, #050510);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* 3D Cube */
+        .hero-3d-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .server-cube-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+            animation: spinCube 20s linear infinite;
+        }
+        @keyframes spinCube {
+            0% {
+                transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg);
+            }
+        }
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .front {
+            transform: translate(-50%, -50%) translateZ(100px);
+            background: rgba(59, 130, 246, 0.08);
+        }
+        .back {
+            transform: translate(-50%, -50%) translateZ(-100px);
+            background: rgba(239, 68, 68, 0.08);
+        }
+        .left {
+            transform: translate(-50%, -50%) rotateY(-90deg) translateZ(100px);
+            background: rgba(59, 130, 246, 0.06);
+        }
+        .right {
+            transform: translate(-50%, -50%) rotateY(90deg) translateZ(100px);
+            background: rgba(239, 68, 68, 0.06);
+        }
+        .top {
+            transform: translate(-50%, -50%) rotateX(90deg) translateZ(100px);
+            background: rgba(59, 130, 246, 0.08);
+        }
+        .bottom {
+            transform: translate(-50%, -50%) rotateX(-90deg) translateZ(100px);
+            background: rgba(239, 68, 68, 0.08);
+        }
+        .cube-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent);
+            border-radius: 50%;
+            filter: blur(50px);
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6, #EF4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            min-width: 220px;
+        }
+        .btn-main:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-smp {
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: #fff;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+        .btn-smp:hover {
+            box-shadow: 0 0 60px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-hosting {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: #fff;
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.3);
+        }
+        .btn-hosting:hover {
+            box-shadow: 0 0 60px rgba(239, 68, 68, 0.5);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            display: none;
+            padding: 100px 20px 60px;
+            min-height: 100vh;
+            background: #0a0a0f;
+        }
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #3B82F6, #EF4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: #aaa;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            transition: 0.3s;
+            margin-bottom: 20px;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* ===== PLANS GRID ===== */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .plan-card {
+            background: linear-gradient(145deg, #12121f, #0a0a15);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .plan-card.featured {
+            border-color: #3B82F6;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.05);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #3B82F6, #EF4444);
+            color: #fff;
+            font-size: 0.6rem;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+        }
+
+        .plan-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .plan-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .plan-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #60A5FA;
+        }
+        .plan-price span {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 400;
+        }
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+        }
+        .plan-features li {
+            padding: 5px 0;
+            font-size: 0.75rem;
+            color: #aaa;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .btn-plan {
+            display: inline-block;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: #fff;
+            padding: 10px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .btn-plan:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===== HOSTING NAV ===== */
+        .hosting-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .hosting-nav button {
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: #aaa;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .hosting-nav button:hover,
+        .hosting-nav button.active {
+            border-color: #3B82F6;
+            color: #fff;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .hosting-section {
+            display: none;
+        }
+        .hosting-section.active {
+            display: block;
+        }
+
+        /* ===== QUICK ORDER ===== */
+        .quick-order {
+            padding: 60px 20px;
+            background: #0a0a0f;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .quick-order h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #60A5FA;
+        }
+
+        .order-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .order-form select,
+        .order-form input {
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            font-size: 0.9rem;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.3s;
+        }
+        .order-form select:focus,
+        .order-form input:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+        .order-form select option {
+            background: #12121f;
+            color: #fff;
+        }
+        .order-form .btn-primary {
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .order-form .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #06060b;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+        .footer p {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .footer .highlight {
+            color: #F87171;
+        }
+        .footer .ip {
+            color: #60A5FA;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .btn-main {
+                padding: 14px 30px;
+                font-size: 1rem;
+                min-width: 160px;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            .hosting-nav {
+                gap: 10px;
+            }
+            .hosting-nav button {
+                padding: 10px 20px;
+                font-size: 0.7rem;
+            }
+            .server-cube-3d {
+                width: 200px;
+                height: 200px;
+            }
+            .cube-face {
+                width: 140px;
+                height: 140px;
+            }
+            .front {
+                transform: translate(-50%, -50%) translateZ(70px);
+            }
+            .back {
+                transform: translate(-50%, -50%) translateZ(-70px);
+            }
+            .left {
+                transform: translate(-50%, -50%) rotateY(-90deg) translateZ(70px);
+            }
+            .right {
+                transform: translate(-50%, -50%) rotateY(90deg) translateZ(70px);
+            }
+            .top {
+                transform: translate(-50%, -50%) rotateX(90deg) translateZ(70px);
+            }
+            .bottom {
+                transform: translate(-50%, -50%) rotateX(-90deg) translateZ(70px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn-main {
+                width: 100%;
+                min-width: unset;
+            }
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+            .nav-info {
+                font-size: 0.55rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="nav-logo">
-            <span class="logo-icon">⚡</span>
-            <span class="logo-text">FLUX<span class="highlight">GROUPS</span></span>
-        </div>
-        <div class="nav-info">
-            <span class="ip">⚡ play.fluxsmp.fun</span>
-            <span class="divider">|</span>
-            <span class="creators">Created by <span class="highlight">Akshat</span> &amp; <span class="highlight">Huzaifa</span></span>
-            <a href="https://discord.gg/4jM9mqvtnZ" class="discord-btn" target="_blank">💬 Discord</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#" class="active">🏠 Home</a></li>
-            <li><a href="#ranks">👑 Ranks</a></li>
-            <li><a href="#create">🎯 Create</a></li>
-            <li><a href="#hosting">🖥️ Hosting</a></li>
-            <li><a href="#vps">💎 VPS</a></li>
-            <li><a href="#premium">⭐ Premium</a></li>
-        </ul>
-        <button class="hamburger" onclick="toggleMenu()">☰</button>
-    </div>
-</nav>
-
-<section class="hero" id="home">
-    <div class="hero-3d-bg">
-        <div class="server-cube-3d">
-            <div class="cube-face front"></div>
-            <div class="cube-face back"></div>
-            <div class="cube-face left"></div>
-            <div class="cube-face right"></div>
-            <div class="cube-face top"></div>
-            <div class="cube-face bottom"></div>
-            <div class="cube-glow"></div>
-        </div>
-    </div>
-    <div class="particles" id="particles"></div>
-    <div class="hero-content">
-        <div class="hero-badge">🚀 SINCE 2024</div>
-        <h1 class="hero-title">FLUX <span class="gradient-text">GROUPS</span></h1>
-        <p class="hero-subtitle">Premium Minecraft Hosting • Rank Store • Crate Keys • Shards</p>
-        <div class="hero-stats">
-            <div class="stat"><span class="stat-number">50+</span><span class="stat-label">Happy Clients</span></div>
-            <div class="stat"><span class="stat-number">99.9%</span><span class="stat-label">Uptime</span></div>
-            <div class="stat"><span class="stat-number">24/7</span><span class="stat-label">Support</span></div>
-        </div>
-        <div class="hero-buttons">
-            <a href="#ranks" class="btn-primary">👑 View Ranks</a>
-            <a href="#hosting" class="btn-secondary">🖥️ Get Hosting</a>
-        </div>
-    </div>
-</section>
-
-<section id="ranks">
-    <div class="model-section mace-bg">
-        <div class="particles" id="particles-mace"></div>
-        <div class="model-container">
-            <div class="model-3d">
-                <div class="mace-3d-mc">
-                    <div class="mace-head-mc">
-                        <div class="mace-spike-mc spike-1-mc"></div>
-                        <div class="mace-spike-mc spike-2-mc"></div>
-                        <div class="mace-spike-mc spike-3-mc"></div>
-                        <div class="mace-spike-mc spike-4-mc"></div>
-                        <div class="mace-spike-mc spike-5-mc"></div>
-                        <div class="mace-spike-mc spike-6-mc"></div>
-                        <div class="mace-spike-mc spike-7-mc"></div>
-                        <div class="mace-spike-mc spike-8-mc"></div>
-                        <div class="mace-enchant-mc"></div>
-                    </div>
-                    <div class="mace-handle-mc"></div>
-                    <div class="mace-particles-mc">
-                        <div class="pixel-particle"></div>
-                        <div class="pixel-particle"></div>
-                        <div class="pixel-particle"></div>
-                        <div class="pixel-particle"></div>
-                        <div class="pixel-particle"></div>
-                        <div class="pixel-particle"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="model-label">⚔️ ENCHANTED MACE</div>
-            <div class="model-sublabel">Minecraft Style</div>
-        </div>
-    </div>
-    <div class="plans">
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
         <div class="container">
-            <h2 class="section-title">👑 Rank Store</h2>
-            <p class="section-subtitle">Choose Your Rank &amp; Upgrade Your Experience</p>
-            <div class="plans-grid">
-                <div class="plan-card">
-                    <div class="plan-badge">Popular</div>
-                    <div class="plan-icon">👑</div>
-                    <h3>VIP</h3>
-                    <p class="plan-price">₹99 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>✅ Basic Permissions</li>
-                        <li>✅ /fly Access</li>
-                        <li>✅ 1 Home Set</li>
-                        <li>✅ Chat Color</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-badge">⭐ Best Value</div>
-                    <div class="plan-icon">⚡</div>
-                    <h3>VIP+</h3>
-                    <p class="plan-price">₹249 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>✅ All VIP Features</li>
-                        <li>✅ 3 Home Sets</li>
-                        <li>✅ /nick Command</li>
-                        <li>✅ Priority Queue</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">❄️</div>
-                    <h3>MVP</h3>
-                    <p class="plan-price">₹549 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>✅ All VIP+ Features</li>
-                        <li>✅ 5 Home Sets</li>
-                        <li>✅ /kick Command</li>
-                        <li>✅ Exclusive MVP Chat</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">⚛️</div>
-                    <h3>MVP+</h3>
-                    <p class="plan-price">₹999 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>✅ All MVP Features</li>
-                        <li>✅ 10 Home Sets</li>
-                        <li>✅ /mute Command</li>
-                        <li>✅ Discord Nitro Perks</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card featured">
-                    <div class="plan-badge">👑 ULTIMATE</div>
-                    <div class="plan-icon">🔥</div>
-                    <h3>FLUX+</h3>
-                    <p class="plan-price">₹1,200 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>✅ All MVP+ Features</li>
-                        <li>✅ Unlimited Homes</li>
-                        <li>✅ /ban Command</li>
-                        <li>✅ Exclusive FLUX+ Role</li>
-                        <li>✅ 1 Free Hosting Plan</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
+            <div class="nav-logo">
+                ⚡ FLUX<span class="highlight">GROUPS</span>
             </div>
+            <div class="nav-info">
+                <span class="ip">⚡ play.fluxsmp.fun</span>
+                <span style="color:#444;margin:0 8px;">|</span>
+                Created by <span class="highlight">Akshat</span> &amp; <span class="highlight">Huzaifa</span>
+                <a href="https://discord.gg/4jM9mqvtnZ" class="discord-btn" target="_blank">💬 Discord</a>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="showSection('home')">🏠 Home</a></li>
+                <li><a onclick="showSection('smp')">👑 FLUX SMP</a></li>
+                <li><a onclick="showSection('hosting')">🖥️ FLUX HOSTING</a></li>
+            </ul>
         </div>
-    </div>
-</section>
+    </nav>
 
-<section id="create">
-    <div class="model-section sword-bg">
-        <div class="particles" id="particles-sword"></div>
-        <div class="model-container">
-            <div class="model-3d">
-                <div class="sword-3d-mc">
-                    <div class="sword-blade-mc">
-                        <div class="sword-stripe"></div>
-                        <div class="sword-enchant-mc"></div>
-                    </div>
-                    <div class="sword-guard-mc"></div>
-                    <div class="sword-handle-mc"></div>
-                    <div class="sword-pommel-mc"></div>
-                    <div class="sword-particles-mc">
-                        <div class="sword-particle"></div>
-                        <div class="sword-particle"></div>
-                        <div class="sword-particle"></div>
-                        <div class="sword-particle"></div>
-                        <div class="sword-particle"></div>
-                    </div>
+    <!-- ===== HOME ===== -->
+    <section class="section active" id="home">
+        <div class="hero">
+            <div class="hero-3d-bg">
+                <div class="server-cube-3d">
+                    <div class="cube-face front"></div>
+                    <div class="cube-face back"></div>
+                    <div class="cube-face left"></div>
+                    <div class="cube-face right"></div>
+                    <div class="cube-face top"></div>
+                    <div class="cube-face bottom"></div>
+                    <div class="cube-glow"></div>
                 </div>
             </div>
-            <div class="model-label">⚔️ ENCHANTED NETHERITE SWORD</div>
-            <div class="model-sublabel">Minecraft Style</div>
-        </div>
-    </div>
-    <div class="plans" id="keys">
-        <div class="container">
-            <h2 class="section-title">🗝️ Crate Keys</h2>
-            <p class="section-subtitle">Unlock Exclusive Items</p>
-            <div class="plans-grid">
-                <div class="plan-card">
-                    <div class="plan-icon">🔑</div>
-                    <h3>Basic</h3>
-                    <p class="plan-price">₹10</p>
-                    <ul class="plan-features">
-                        <li>✅ Common Items</li>
-                        <li>✅ 1x Crate Key</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">🌟</div>
-                    <h3>Epic</h3>
-                    <p class="plan-price">₹30</p>
-                    <ul class="plan-features">
-                        <li>✅ Rare Items</li>
-                        <li>✅ 1x Epic Key</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">⚡</div>
-                    <h3>Hyper</h3>
-                    <p class="plan-price">₹50</p>
-                    <ul class="plan-features">
-                        <li>✅ Legendary Items</li>
-                        <li>✅ 1x Hyper Key</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">🃏</div>
-                    <h3>Ace</h3>
-                    <p class="plan-price">₹60</p>
-                    <ul class="plan-features">
-                        <li>✅ Mythic Items</li>
-                        <li>✅ 1x Ace Key</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card featured">
-                    <div class="plan-badge">🔥 ULTIMATE</div>
-                    <div class="plan-icon">👑</div>
-                    <h3>Flux</h3>
-                    <p class="plan-price">₹80</p>
-                    <ul class="plan-features">
-                        <li>✅ God-Tier Items</li>
-                        <li>✅ 1x Flux Key</li>
-                        <li>✅ 5% Shard Bonus</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
+            <div class="hero-content">
+                <h1 class="hero-title">FLUX <span class="gradient-text">GROUPS</span></h1>
+                <p class="hero-subtitle">Premium Minecraft Hosting • Rank Store • Crate Keys • Shards</p>
+                <div class="hero-buttons">
+                    <button class="btn-main btn-smp" onclick="showSection('smp')">👑 FLUX SMP</button>
+                    <button class="btn-main btn-hosting" onclick="showSection('hosting')">🖥️ FLUX HOSTING</button>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="model-section shard-bg" id="shards">
-        <div class="particles" id="particles-shard"></div>
-        <div class="model-container">
-            <div class="model-3d">
-                <div class="shard-3d-mc">
-                    <div class="shard-body-mc">
-                        <div class="shard-facet facet-1"></div>
-                        <div class="shard-facet facet-2"></div>
-                        <div class="shard-facet facet-3"></div>
-                        <div class="shard-facet facet-4"></div>
-                        <div class="shard-glow-mc"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="model-label">💎 AMETHYST SHARD</div>
-            <div class="model-sublabel">Minecraft Style</div>
-        </div>
-    </div>
-    <div class="plans">
-        <div class="container">
-            <h2 class="section-title">💎 Shards</h2>
-            <p class="section-subtitle">Power up your game with Amethyst Shards</p>
-            <div class="plans-grid">
-                <div class="plan-card">
-                    <div class="plan-icon">💎</div>
-                    <h3>100 Shards</h3>
-                    <p class="plan-price">₹10</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">💎</div>
-                    <h3>200 Shards</h3>
-                    <p class="plan-price">₹20</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card featured">
-                    <div class="plan-badge">⭐ BEST VALUE</div>
-                    <div class="plan-icon">💎</div>
-                    <h3>500 Shards</h3>
-                    <p class="plan-price">₹50</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">💎</div>
-                    <h3>800 Shards</h3>
-                    <p class="plan-price">₹80</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">💎</div>
-                    <h3>1,000 Shards</h3>
-                    <p class="plan-price">₹100</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">💎</div>
-                    <h3>1,500 Shards</h3>
-                    <p class="plan-price">₹150</p>
-                    <a href="#order" class="btn-plan">Buy Now →</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<section id="hosting">
-    <div class="model-section processor-bg">
-        <div class="particles" id="particles-processor"></div>
-        <div class="model-container">
-            <div class="model-3d">
-                <div class="processor-3d-mc">
-                    <div class="proc-chip-mc">
-                        <div class="proc-core-mc"></div>
-                        <div class="proc-glow-mc"></div>
-                        <div class="proc-pin-mc pin-1-mc"></div>
-                        <div class="proc-pin-mc pin-2-mc"></div>
-                        <div class="proc-pin-mc pin-3-mc"></div>
-                        <div class="proc-pin-mc pin-4-mc"></div>
-                        <div class="proc-pin-mc pin-5-mc"></div>
-                        <div class="proc-pin-mc pin-6-mc"></div>
-                        <div class="proc-pin-mc pin-7-mc"></div>
-                        <div class="proc-pin-mc pin-8-mc"></div>
-                        <div class="proc-pin-mc pin-9-mc"></div>
-                        <div class="proc-pin-mc pin-10-mc"></div>
-                        <div class="proc-pin-mc pin-11-mc"></div>
-                        <div class="proc-pin-mc pin-12-mc"></div>
-                        <div class="proc-pin-mc pin-13-mc"></div>
-                        <div class="proc-pin-mc pin-14-mc"></div>
-                        <div class="proc-pin-mc pin-15-mc"></div>
-                        <div class="proc-pin-mc pin-16-mc"></div>
-                        <div class="proc-pin-mc pin-17-mc"></div>
-                        <div class="proc-pin-mc pin-18-mc"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="model-label">⚡ AMD RYZEN 9 9950X</div>
-            <div class="model-sublabel">🔥 6.80GHz Turbo • DDR5 Memory</div>
-        </div>
-    </div>
-    <div class="plans">
+    <!-- ===== FLUX SMP ===== -->
+    <section class="section" id="smp">
         <div class="container">
-            <h2 class="section-title">🖥️ Budget Hosting Plans</h2>
-            <p class="section-subtitle">Powered by Flux Noida DC • Basic DDoS Protection</p>
+            <button class="back-btn" onclick="showSection('home')">← Back to Home</button>
+            <h2 class="section-title">👑 FLUX SMP</h2>
+            <p class="section-subtitle">Ranks • Crate Keys • Shards</p>
+
+            <!-- RANKS -->
+            <h3 style="color:#60A5FA; text-align:center; font-size:1.3rem; margin-top:40px;">👑 Ranks</h3>
             <div class="plans-grid">
-                <div class="plan-card">
-                    <div class="plan-icon">🪨</div>
-                    <h3>FLUX STONE</h3>
-                    <p class="plan-price">₹200 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 4GB RAM</li>
-                        <li>⚙️ 2 vCores</li>
-                        <li>💾 10GB SSD</li>
-                        <li>👥 10 Players</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">🔩</div>
-                    <h3>FLUX IRON</h3>
-                    <p class="plan-price">₹300 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 6GB RAM</li>
-                        <li>⚙️ 4 vCores</li>
-                        <li>💾 15GB SSD</li>
-                        <li>👥 20 Players</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card featured">
-                    <div class="plan-badge">⭐ BEST VALUE</div>
-                    <div class="plan-icon">🪙</div>
-                    <h3>FLUX COPPER</h3>
-                    <p class="plan-price">₹400 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 8GB RAM</li>
-                        <li>⚙️ 4 vCores</li>
-                        <li>💾 20GB SSD</li>
-                        <li>👥 30 Players</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">🔴</div>
-                    <h3>FLUX REDSTONE</h3>
-                    <p class="plan-price">₹800 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 16GB RAM</li>
-                        <li>⚙️ 6 vCores</li>
-                        <li>💾 35GB SSD</li>
-                        <li>👥 50 Players</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">⭐</div>
-                    <h3>FLUX GOLD</h3>
-                    <p class="plan-price">₹1,200 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 32GB RAM</li>
-                        <li>⚙️ 8 vCores</li>
-                        <li>💾 50GB SSD</li>
-                        <li>👥 Unlimited</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-                <div class="plan-card">
-                    <div class="plan-icon">🔥</div>
-                    <h3>FLUX GHAST</h3>
-                    <p class="plan-price">₹1,500 <span>/month</span></p>
-                    <ul class="plan-features">
-                        <li>🧠 64GB RAM</li>
-                        <li>⚙️ 12 vCores</li>
-                        <li>💾 80GB SSD</li>
-                        <li>👥 Unlimited</li>
-                    </ul>
-                    <a href="#order" class="btn-plan">Order Now →</a>
-                </div>
-            </div>
-            <div class="features-banner">
-                <h3>📌 ALL PLANS INCLUDE</h3>
-                <div class="features-grid">
-                    <span>✅ 24/7 Support</span>
-    
+                <div class="plan-card"><div class="plan-badge">Popular</div><div class="plan-icon">👑</div><h3>VIP</h3><p class="plan-price">₹99 <span>/month</span></p><ul class="plan-features"><li>✅ Basic Permissions</li><li>✅ /fly Access</li><li>✅ 1 Home Set</li><li>✅ Chat Color</li></ul><button class="btn-plan" onclick="openOrder('VIP - ₹99/month')">Order Now →</button></div>
+                <div class="plan-card"><div class="plan-badge">⭐ Best Value</div><div class="plan-icon">⚡</div><h3>VIP+</h3><p class="plan-price">₹249 <span>/month</span></p><ul class="plan-features"><li>✅ All VIP Features</li><li>✅ 3 Home Sets</li><li>✅ /nick Command</li><li>✅ Priority Queue</li></ul><button class="btn-plan" onclic
